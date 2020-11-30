@@ -16,5 +16,5 @@ function displayWeather(){
         $(".jumbotron").append(h1)
     })
 
-        var h2=$("<h2>") .html("humidity:" + results.main.humidity)
+        
 }
