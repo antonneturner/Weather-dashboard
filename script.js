@@ -12,8 +12,15 @@ function displayWeather(){
     .then(function(results){
         console.log(results)
 
-        var h1=$("<h1>").html("temp:" + results.main.temp)
+        var h1=$("<h1>").html("Temp:" + results.main.Temp)
         $(".jumbotron").append(h1)
+
+        var pHum=$("<p>").html("Humidity:" + results.main.Humidity + "%")
+        $(".jumbotron").append(h1,pHum)
+
+        var Ws=$("<p>").html("windspeed" + results.main.windspeed)
+        $(".jumbotron").append(h1,pHum,Ws)
+
     
     })
 
