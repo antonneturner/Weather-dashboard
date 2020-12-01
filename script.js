@@ -14,7 +14,7 @@ function displayWeather(){
 
         var h1=$("<h1>").html("temp:" + results.main.temp)
         $(".jumbotron").append(h1)
+    
     })
 
-        
 }
