@@ -10,18 +10,36 @@ function displayWeather(){
         method:"GET"
     })
     .then(function(results){
-        console.log(results)
+        console.log(results) 
 
-        var h1=$("<h1>").html("Temp:" + results.main.Temp)
+        var currentDate=moment(results.dt,"X").format(" (L) ")
+
+        var iconcode = results.weather[0].icon;
+        var iconUrl = "http://openweathermap.org/img/w/" + iconcode + ".png";
+
+        var img= $("<img>").attr("src",iconUrl)
+
+        var h1=$("<h1>").append( results.name, currentDate,img)
         $(".jumbotron").append(h1)
 
-        var pHum=$("<p>").html("Humidity:" + results.main.Humidity + "%")
-        $(".jumbotron").append(h1,pHum)
+        var h1=$("<h1>").html("Temp: " + results.main.temp)
+        $(".jumbotron").append(h1)
 
-        var Ws=$("<p>").html("windspeed" + results.main.windspeed)
-        $(".jumbotron").append(h1,pHum,Ws)
+        var pHum=$("<p>").html("Humidity: " + results.main.humidity + "%")
+        $(".jumbotron").append(pHum)
 
+        var Ws=$("<p>").html("Windspeed: " + results.wind.speed)
+        $(".jumbotron").append(Ws)
+        
+        $.ajax({
+            url:"http://api.openweathermap.org/data/2.5/uvi?lat="+results.coord.lat+"&lon="+results.coord.lon+"&appid="+apiKey
+        }).then( function(uvIndex){
+            console.log(uvIndex)
+         
+            var uv=$("<p>").html("uvIndex: " + uvIndex.value)
+            $(".jumbotron").append(uv)
+        })
     
     })
 
-}
+}    
