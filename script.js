@@ -3,7 +3,7 @@ $("#search").on ("click", function(){
     displayWeather()
 })
 function displayWeather(){
-
+    $(".jumbotron").empty()
     var cityName=$("#cityName").val()
     $.ajax({
         url:"https://api.openweathermap.org/data/2.5/weather?q="+cityName +"&units=imperial&appid="+apiKey,
@@ -39,7 +39,30 @@ function displayWeather(){
             var uv=$("<p>").html("uvIndex: " + uvIndex.value)
             $(".jumbotron").append(uv)
         })
-    
+        $.ajax({
+            url:"http://api.openweathermap.org/data/2.5/forecast?q="+cityName+"&units=imperial&appid="+apiKey,
+            method:"GET"
+        }).then(function(fivedayForecast){
+            // console.log(fivedayForecast)
+            for(var i =0;fivedayForecast.list.length;i++){
+                if(fivedayForecast.list[i].dt_txt.includes("00:00:00")){
+                       console.log(fivedayForecast.list[i])
+                   $(".fiveDayCards").append(`
+             <div class="col-sm-2">
+                   <div class="card">
+                       <div class="card-body">
+                           <h3> ${moment(fivedayForecast.list[i].dt,"X").format("L")}  </h3>
+                           <img  src="${"http://openweathermap.org/img/w/" +fivedayForecast.list[i].weather[0].icon +".png"  }  ">
+                       temp:   ${fivedayForecast.list[i].main.temp}
+                       humidity: ${fivedayForecast.list[i].main.humidity}
+                       </div>
+                   </div>
+               </div>
+
+                   `)
+                }
+            }
+        })
     })
 
 }    
