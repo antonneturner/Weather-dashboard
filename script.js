@@ -1,10 +1,38 @@
 var apiKey = "64126c4733c820feb7b19413d2391072";
+var cities = localStorage.getItem("Cities")
+  ? JSON.parse(localStorage.getItem("Cities"))
+  : [];
+
 $("#search").on("click", function () {
-  displayWeather();
-});
-function displayWeather() {
-  $(".jumbotron").empty();
   var cityName = $("#cityName").val();
+
+  cities.push(cityName);
+  localStorage.setItem("Cities", JSON.stringify(cities));
+  displayWeather(cityName);
+  displayCities();
+});
+
+displayCities();
+
+function displayCities() {
+  $(".citylist").empty();
+  for (var i = 0; i < cities.length; i++) {
+    var li = $(` 
+  <li class="list-group-item d-flex city justify-content-between align-items-center">
+    ${cities[i]}
+    <span class="badge badge-primary badge-pill"></span>
+</li>`);
+    $(".citylist").append(li);
+  }
+  $(".city").on("click", function () {
+    var cityName = $(this).text();
+    displayWeather(cityName);
+  });
+}
+
+function displayWeather(cityName) {
+  $(".jumbotron").empty();
+
   $.ajax({
     url:
       "https://api.openweathermap.org/data/2.5/weather?q=" +
