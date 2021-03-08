@@ -1,7 +1,15 @@
 * {
-  color: blue;
+  backgroundcolor: blue;
 }
 
 .row {
-  color: purple;
+  color: blue;
+}
+
+.jumbotron {
+  color: blue;
+}
+
+.navbar {
+  background-color: blue !important;
 }
